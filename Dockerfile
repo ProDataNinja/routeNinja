@@ -4,7 +4,6 @@ FROM python:2-onbuild
 RUN apt-get update
 RUN curl https://bootstrap.pypa.io/ez_setup.py -o - | python
 RUN pip install ez_setup
-RUN pip install ortools
 
 RUN wget https://github.com/google/or-tools/releases/download/v2016-06/Google.OrTools.python.examples.3631.tar.gz
 RUN tar -zxf Google.OrTools.python.examples.3631.tar.gz
