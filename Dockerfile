@@ -8,4 +8,4 @@ RUN tar -zxf Google.OrTools.python.examples.3631.tar.gz
 WORKDIR "./ortools_examples"
 CMD ["python","setup.py", "install", "--user"]
 CMD ["easy_install", "-U", "ortools"]
-CMD ["python","/examples/python/golomb8.py"]
+CMD ["python","./examples/python/golomb8.py"]
