@@ -1,4 +1,4 @@
-FROM buildpack-deps:trusty-curl
+FROM buildpack-deps:trusty
 
 # remove several traces of debian python
 RUN apt-get purge -y python.*
