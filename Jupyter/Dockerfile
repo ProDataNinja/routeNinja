@@ -27,8 +27,8 @@ RUN mkdir /home/$NB_USER/work && \
     echo "cacert=/etc/ssl/certs/ca-certificates.crt" > /home/$NB_USER/.curlrc
 
 # Install Jupyter notebook as jovyan
-RUN conda install --quiet --yes \
-    'notebook=4.2*'
+RUN apt-get install build-essential python-dev && \
+    pip install jupyter
 
 # Install JupyterHub to get the jupyterhub-singleuser startup script
 RUN pip --no-cache-dir install 'jupyterhub==0.5'
