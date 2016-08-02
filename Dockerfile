@@ -11,4 +11,5 @@ RUN set -x \
 	&& cd ortools_examples \
 	&& python setup.py install \
 	&& pip install --upgrade ortools \
-CMD['/bin/sh']
+	
+CMD["/bin/sh"]
