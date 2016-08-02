@@ -11,4 +11,4 @@ RUN set -x \
 	&& cd ortools_examples \
 	&& python setup.py install \
 	&& pip install --upgrade ortools \
-	&& python examples/python/golomb8.py
+CMD['/bin/sh']
