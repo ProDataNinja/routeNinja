@@ -10,6 +10,5 @@ RUN set -x \
 	&& tar -zxf Google.OrTools.python.examples.3631.tar.gz \
 	&& cd ortools_examples \
 	&& python setup.py install \
-	&& pip install --upgrade ortools \
-	
-CMD["/bin/sh"]
+	&& pip install --upgrade ortools
+RUN sh
