@@ -7,4 +7,5 @@ RUN set -x \
 	&& tar -zxf Google.OrTools.python.examples.3631.tar.gz \
 	&& cd ortools_examples \
 	&& python setup.py install \
-	&& python examples/python/golomb8.py \
+
+CMD ["python","./ortools_examples/examples/python/golomb8.py"]
