@@ -16,7 +16,9 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
 # Create jovyan user with UID=1000 and in the 'users' group
-RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER
+RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
+    apt-get install build-essential python-dev
+    
 
 USER $NB_USER
 
@@ -27,8 +29,7 @@ RUN mkdir /home/$NB_USER/work && \
     echo "cacert=/etc/ssl/certs/ca-certificates.crt" > /home/$NB_USER/.curlrc
 
 # Install Jupyter notebook as jovyan
-RUN sudo apt-get install build-essential python-dev && \
-    sudo pip install jupyter
+RUN pip install jupyter
 
 # Install JupyterHub to get the jupyterhub-singleuser startup script
 RUN pip --no-cache-dir install 'jupyterhub==0.5'
