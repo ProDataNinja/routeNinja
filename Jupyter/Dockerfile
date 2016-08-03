@@ -6,7 +6,9 @@ RUN apt-get update && \
     /usr/local/bin/pip install --no-cache-dir --upgrade ipykernel jupyter && \
     apt-get -y autoremove && \
     apt-get clean && \
-    rm -r /var/lib/apt/lists/*
+    rm -r /var/lib/apt/lists/* && \
+    jupyter notebook --generate-config && \
+    echo "c.NotebookApp.ip = '*'" >> /root/.jupyter/jupyter_notebook_config.py
 
 WORKDIR /mnt/notebooks
 EXPOSE 8888
