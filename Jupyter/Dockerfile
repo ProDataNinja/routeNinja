@@ -29,9 +29,11 @@ RUN mkdir /home/$NB_USER/work && \
     mkdir -p -m 700 /home/$NB_USER/.local/share/jupyter && \
     echo "cacert=/etc/ssl/certs/ca-certificates.crt" > /home/$NB_USER/.curlrc
 
+USER root
 # Install Jupyter notebook as jovyan
-RUN sudo pip install jupyter
+RUN su $NB_USER pip install jupyter
 
+USER $NB_USER
 # Install JupyterHub to get the jupyterhub-singleuser startup script
 RUN pip --no-cache-dir install 'jupyterhub==0.5'
 
