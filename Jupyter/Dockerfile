@@ -41,7 +41,7 @@ RUN mkdir /home/$NB_USER/work && \
 RUN cd /tmp && \
     mkdir -p $CONDA_DIR && \
     wget --quiet https://repo.continuum.io/miniconda/Miniconda2-4.0.5-Linux-x86_64.sh && \
-    echo "9ea57c0fdf481acf89d816184f969b04bc44dea27b258c4e86b1e3a25ff26aa0 *Miniconda2-4.0.5-Linux-x86_64.sh" | sha256sum -c - && \
+    echo "42dac45eee5e58f05f37399adda45e85 *Miniconda2-4.0.5-Linux-x86_64.sh" | md5 -c - && \
     /bin/bash Miniconda2-4.0.5-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
     rm Miniconda2-4.0.5-Linux-x86_64.sh && \
     $CONDA_DIR/bin/conda install --quiet --yes conda==4.0.5 && \
