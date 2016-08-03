@@ -4,8 +4,8 @@ MAINTAINER Jupyter Project <jupyter@googlegroups.com>
 
 USER root
 
-RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-    locale-gen
+#RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+#    locale-gen
 
 # Install Tini
 RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.9.0/tini && \
@@ -20,8 +20,8 @@ ENV SHELL /bin/bash
 ENV NB_USER prodataninja
 ENV NB_UID 1000
 ENV HOME /home/$NB_USER
-ENV LC_ALL en_US.UTF-8
-ENV LANG en_US.UTF-8
+#ENV LC_ALL en_US.UTF-8
+#ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
 # Create jovyan user with UID=1000 and in the 'users' group
