@@ -16,10 +16,11 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
 # Create jovyan user with UID=1000 and in the 'users' group
-RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
-    apt-get install build-essential python-dev
-    
+RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER
 
+# Install Python C-Extentsions for comipling Jupyter Dependencies
+RUN apt-get install build-essential python-dev
+    
 USER $NB_USER
 
 # Setup jovyan home directory
