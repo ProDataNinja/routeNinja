@@ -19,7 +19,7 @@ ENV LANGUAGE en_US.UTF-8
 RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER
 
 # Install Python C-Extentsions for comipling Jupyter Dependencies
-RUN apt-get install build-essential python-dev
+RUN apt-get install -y build-essential python-dev
     
 USER $NB_USER
 
