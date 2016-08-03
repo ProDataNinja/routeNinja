@@ -4,7 +4,6 @@ RUN apt-get update && \
     pip install --no-cache-dir --upgrade --ignore-installed pip && \
     for module in $(/usr/local/bin/pip list --no-cache-dir --outdated |cut -f1 -d' '); do /usr/local/bin/pip install --no-cache-dir --upgrade ${module}; done && \
     /usr/local/bin/pip install --no-cache-dir --upgrade ipykernel jupyter && \
-    dpkg --purge pkg-config python-pip && \
     apt-get -y autoremove && \
     apt-get clean && \
     rm -r /var/lib/apt/lists/*
