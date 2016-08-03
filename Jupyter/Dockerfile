@@ -1,7 +1,6 @@
 FROM prodataninja/routeninja
 
 RUN apt-get update && \
-    apt-get -y install pkg-config python python-pip && \
     pip install --no-cache-dir --upgrade --ignore-installed pip && \
     for module in $(/usr/local/bin/pip list --no-cache-dir --outdated |cut -f1 -d' '); do /usr/local/bin/pip install --no-cache-dir --upgrade ${module}; done && \
     /usr/local/bin/pip install --no-cache-dir --upgrade ipykernel jupyter && \
