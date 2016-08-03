@@ -1,5 +1,17 @@
 FROM prodataninja/routeninja
 
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+    wget \
+    bzip2 \
+    ca-certificates \
+    sudo \
+    locales \
+    && apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+    locale-gen
+
 # Install Tini
 RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.9.0/tini && \
     echo "faafbfb5b079303691a939a747d7f60591f2143164093727e870b289a44d9872 *tini" | sha256sum -c - && \
@@ -7,6 +19,8 @@ RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.9.0/tini &
     chmod +x /usr/local/bin/tini
 
 # Configure environment
+ENV CONDA_DIR /opt/conda
+ENV PATH $CONDA_DIR/bin:$PATH
 ENV SHELL /bin/bash
 ENV NB_USER prodataninja
 ENV NB_UID 1000
@@ -16,11 +30,10 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
 # Create jovyan user with UID=1000 and in the 'users' group
-RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER
+RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
+    mkdir -p $CONDA_DIR && \
+    chown $NB_USER $CONDA_DIR
 
-# Install Python C-Extentsions for comipling Jupyter Dependencies
-RUN apt-get install -y build-essential python-dev
-    
 USER $NB_USER
 
 # Setup jovyan home directory
@@ -29,11 +42,26 @@ RUN mkdir /home/$NB_USER/work && \
     mkdir -p -m 700 /home/$NB_USER/.local/share/jupyter && \
     echo "cacert=/etc/ssl/certs/ca-certificates.crt" > /home/$NB_USER/.curlrc
 
-USER root
-# Install Jupyter notebook as jovyan
-RUN su $NB_USER pip install jupyter
+# Install conda as jovyan
+RUN cd /tmp && \
+    mkdir -p $CONDA_DIR && \
+    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-3.19.0-Linux-x86_64.sh && \
+    echo "9ea57c0fdf481acf89d816184f969b04bc44dea27b258c4e86b1e3a25ff26aa0 *Miniconda3-3.19.0-Linux-x86_64.sh" | sha256sum -c - && \
+    /bin/bash Miniconda3-3.19.0-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
+    rm Miniconda3-3.19.0-Linux-x86_64.sh && \
+    $CONDA_DIR/bin/conda install --quiet --yes conda==3.19.1 && \
+    $CONDA_DIR/bin/conda config --system --add channels conda-forge && \
+    conda clean -tipsy
 
-USER $NB_USER
+# Temporary workaround for https://github.com/jupyter/docker-stacks/issues/210
+# Stick with jpeg 8 to avoid problems with R packages
+RUN echo "jpeg 8*" >> /opt/conda/conda-meta/pinned
+
+# Install Jupyter notebook as jovyan
+RUN conda install --quiet --yes \
+    'notebook=4.2*' \
+    && conda clean -tipsy
+
 # Install JupyterHub to get the jupyterhub-singleuser startup script
 RUN pip --no-cache-dir install 'jupyterhub==0.5'
 
